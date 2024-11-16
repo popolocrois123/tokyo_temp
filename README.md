@@ -6,4 +6,6 @@ df = pd.read_html("https://www.data.jma.go.jp/obd/stats/etrn/view/monthly_s3.php
 df.set_index("年", inplace=True)
 display(df)
 
+print(df.info())
+
 
