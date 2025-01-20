@@ -1,0 +1,44 @@
+import sqlite3
+import pandas as pd
+
+connection = sqlite3.connect('/content/sqlite-sakila.db')
+cursor = connection.cursor()
+
+query = '''
+SELECT name FROM sqlite_master
+WHERE type='table';
+'''
+
+cursor.execute(query)
+results = cursor.fetchall()
+
+query = '''SELECT *
+FROM actor
+Limit 3'''
+
+cursor.execute(query)
+results = cursor.fetchall()
+
+query = '''SELECT *
+FROM actor
+'''
+
+cursor.execute(query)
+results = cursor.fetchall()
+
+# クエリを使用してカラム名を取得
+cursor.execute(f"PRAGMA table_info({'actor'})")
+columns = cursor.fetchall()
+
+# カラム名を抽出してリスト化
+column_names = [column[1] for column in columns]
+
+
+df = pd.DataFrame(results, columns= column_names)
+print(df.info())
+
+print(df.head())
+
+df.to_csv('/sqlite-sakila.csv')
+
+
