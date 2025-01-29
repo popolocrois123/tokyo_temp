@@ -1,0 +1,24 @@
+# get info from yahooFinance
+
+NissanInfo =yahooFinance.Ticer("7201.T")
+
+print(NissanInfo.info)
+
+print("Company Sector : ", NissanInfo.info["sector"])
+print("Price Earning Ratio : ", NissanInfo.info["trailingPE"])
+print("Company Beta : ", NissanInfo.info["beta"])
+
+for key, value in NissanInfo.info.items():
+    print(key, " : ", value)
+
+print(NissanInfo.history(period="max"))
+
+import datetime
+
+start = datetime.datetime(2024, 12, 1)
+end = datetime.datetime(2025, 1, 1)
+print(NissanInfo.history(start=start, end=end))
+
+df = yahooFinance.download("7201.T 7203.T", start="2024-01-01", end="2025-01-01", group_by="ticker")
+print(df)
+display(df["7201.T"])
