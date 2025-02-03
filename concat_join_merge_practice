@@ -1,0 +1,25 @@
+# import 
+import pandas as pd
+
+# import csv files
+df_2023_temp = pd.read_csv("tokyo_temp_2023.csv", encoding="shift-jis", header=1, skiprows=1, index_col="年月")
+df_2023_temp.drop(index=["2024/1"], inplace=True)
+df_2024_temp = pd.read_csv("tokyo_temp_2024.csv", encoding="shift-jis", skiprows=1, header=1, index_col="年月")
+df_2024_rain = pd.read_csv("tokyo_rain_2024.csv", encoding="shift-jis", skiprows=2, header=1, index_col="年月")
+df_2024_rain.drop(df_2024_rain.index[[0]], inplace=True)
+
+# comit
+df_cat1 = pd.concat([df_2023_temp, df_2024_temp], axis=0)
+display(df_cat1)
+
+df_cat3 = pd.concat([df_2024_temp, df_2024_rain], axis=1)
+display(df_cat3)
+
+# join
+df_join = df_2024_temp.join(df_2024_rain, how="inner")
+
+# import csv files for merge
+df_2024_temp2 = pd.read_csv("tokyo_temp_2024.csv", encoding="shift-jis", skiprows=1, header=1)
+df_2024_rain2 = pd.read_csv("tokyo_rain_2024.csv", encoding="shift-jis", skiprows=2, header=1)
+df_2024_rain2.drop(df_2024_rain2.index[[0]], inplace=True)
+display(pd.merge(df_2024_temp2, df_2024_rain2, on=["年月"], how="inner"))
